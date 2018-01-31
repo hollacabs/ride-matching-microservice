@@ -14,8 +14,8 @@ const client = new cassandra.Client({
 
 module.exports = {
   insert: (driveHistory) => {
-    let queryDrivers = 'INSERT INTO drivers (driver_id, price_timestamp, city, pick_up_distance, ride_duration) VALUES (?, ?, ?, ?, ?)'
-    let queryCities = 'INSERT INTO cities (driver_id, price_timestamp, city, pick_up_distance, ride_duration) VALUES (?, ?, ?, ?, ?)'
+    let queryDrivers = 'INSERT INTO drivers (driver_id, trip_id, price_timestamp, city, pick_up_distance, ride_duration) VALUES (?, ?, ?, ?, ?, ?)'
+    let queryCities = 'INSERT INTO cities (driver_id, trip_id, price_timestamp, city, pick_up_distance, ride_duration) VALUES (?, ?, ?, ?, ?, ?)'
     const queries = [
       {
         query: queryDrivers,
