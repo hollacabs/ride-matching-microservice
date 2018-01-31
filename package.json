@@ -1,0 +1,28 @@
+{
+  "name": "ride-matching-microservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hollacabs/ride-matching-microservice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hollacabs/ride-matching-microservice/issues"
+  },
+  "homepage": "https://github.com/hollacabs/ride-matching-microservice#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "cassandra-driver": "^3.3.0",
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "moment": "^2.20.1",
+    "redis": "^2.8.0"
+  }
+}
