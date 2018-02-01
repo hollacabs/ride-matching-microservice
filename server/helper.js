@@ -1,6 +1,14 @@
 const _ = require('lodash');
 const axios = require('axios');
 const coordinates = require('../coordinates');
+const AWS = require('aws-sdk');
+// const queueUrl = 'https://sqs.us-west-1.amazonaws.com/278687533626/eventlogger';
+
+AWS.config.loadFromPath(path.resolve(__dirname, '../config.json'));
+
+let sqs = new AWS.SQS({
+  apiVersion: '2012-11-05'
+});
 
 module.exports = {
   pickUpCity : (pickUpLocation) => {
@@ -17,8 +25,22 @@ module.exports = {
     });
   },
 
-  eventLogger : (body) => {
-    return;
+  eventLogger: (messageBody) => {
+    let params = {
+      MessageBody: JSON.stringify(messageBody),
+      QueueUrl: queueUrl,
+      DelaySeconds: 0
+    }
+    return new Promise((resolve, reject) => {
+      sqs.sendMessage(params, (err, data) => {
+        if (err) {
+            console.log('Error sending message', err)
+        reject(err)
+            } else {
+            console.log('Message send success, ', data)
+        resolve(data);
+          };
+      });
+    })
   }
-
 }

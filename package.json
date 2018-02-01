@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/hollacabs/ride-matching-microservice#readme",
   "dependencies": {
+    "aws-sdk": "^2.188.0",
     "axios": "^0.17.1",
     "cassandra-driver": "^3.3.0",
     "koa": "^2.4.1",

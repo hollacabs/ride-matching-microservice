@@ -7,8 +7,8 @@ const helper = require('./helper');
 
 router
   .post('/', async (ctx) => {
-    let {priceTimestamp, rideDuration, pickUpLocation} = ctx.request.body;
     try {
+      let { priceTimestamp, rideDuration, pickUpLocation } = ctx.request.body;
       let geoRadiusResult = await redis.geoRadius2km(pickUpLocation);
       // if no results, retry with larger radius
       if (!geoRadiusResult.length) {
