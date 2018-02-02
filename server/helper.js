@@ -4,19 +4,13 @@ const coordinates = require('../coordinates');
 const AWS = require('aws-sdk');
 // const queueUrl = 'https://sqs.us-west-1.amazonaws.com/278687533626/eventlogger';
 
-AWS.config.loadFromPath(path.resolve(__dirname, '../config.json'));
+// AWS.config.loadFromPath(path.resolve(__dirname, '../config.json'));
 
-let sqs = new AWS.SQS({
-  apiVersion: '2012-11-05'
-});
+// let sqs = new AWS.SQS({
+//   apiVersion: '2012-11-05'
+// });
 
 module.exports = {
-  pickUpCity : (pickUpLocation) => {
-    return _.findKey(coordinates, (city) => {
-      return (pickUpLocation[0] > city.longitude[0] && pickUpLocation[0] < city.longitude[1]) &&
-        (pickUpLocation[1] < city.latitude[0] && pickUpLocation[1] > city.latitude[1])
-    })
-  },
 
   uuidv4 : () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -42,5 +36,11 @@ module.exports = {
           };
       });
     })
-  }
+  },
+    // pickUpCity : (pickUpLocation) => {
+  //   return _.findKey(coordinates, (city) => {
+  //     return (pickUpLocation[0] > city.longitude[0] && pickUpLocation[0] < city.longitude[1]) &&
+  //       (pickUpLocation[1] < city.latitude[0] && pickUpLocation[1] > city.latitude[1])
+  //   })
+  // },
 }
