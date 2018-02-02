@@ -14,12 +14,14 @@ router
       if (!geoRadiusResult.length) {
         geoRadiusResult = await redis.geoRadius10km(pickUpLocation);
       }
+      // deletes the select driver from redis
       let driverId = geoRadiusResult[0][0];
+      redis.removeDriver(driverId);
+
       let pickUpDistance = parseFloat(parseFloat(geoRadiusResult[0][1]).toFixed(2));
       let driverLocation = [parseFloat(geoRadiusResult[0][2][1]), parseFloat(geoRadiusResult[0][2][0])]
-      // deletes the select driver from redis
-      redis.removeDriver(driverId);
-      cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration, pickUpLocation, dropOffLocation, driverLocation]);
+
+      cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
       
       // helper.eventLogger('someaddress', { driverId, priceTimestamp })
 
@@ -35,7 +37,6 @@ router
       let {driverId} = ctx.request.body;
       let {rows} = await cassandra.driverStats(driverId);
       ctx.response.body = rows;
-      // ctx.response.status = 200;
     } catch(error) {
       console.log('error', error);
       ctx.response.status = 400;

@@ -1,0 +1,20 @@
+config:
+  target: 'http://localhost:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+  payload: 
+    path: "driver_id.csv"
+    fields: 
+      - "driver_id"
+scenarios:
+  - flow:
+    - loop:
+      - post:
+          url: "/statistics"
+          json: 
+            driverId: "{{driver_id}}"
+      count: 700

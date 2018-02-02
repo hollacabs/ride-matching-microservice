@@ -28,6 +28,7 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "jest": "^22.1.4"
+    "jest": "^22.1.4",
+    "newrelic": "^2.7.0"
   }
 }

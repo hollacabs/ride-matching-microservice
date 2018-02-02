@@ -16,13 +16,13 @@ module.exports = {
   insert: (driveHistory) => {
     let query = 
     `INSERT INTO drivers (driver_id, trip_id, price_timestamp, city,
-    pick_up_distance, ride_duration, drop_off_coord, pick_up_coord, start_coord)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    pick_up_distance, ride_duration)
+    VALUES (?, ?, ?, ?, ?, ?)`;
     client.execute(query, driveHistory, { prepare: true })
   },
   driverStats: (driverId) => {
     let query = 
-    `SELECT * FROM drivers WHERE driver_id = ${driverId}`;
+    `SELECT * FROM drivers WHERE driver_id = ${driverId} LIMIT 10`;
     return client.execute(query, {prepare:true})
   }
 }
