@@ -4,7 +4,6 @@ const redis = require('../database/redis');
 const cassandra = require('../database/cassandra');
 const helper = require('./helper');
 
-
 router
   .post('/', async (ctx) => {
     try {
@@ -35,8 +34,8 @@ router
   .post('/statistics', async (ctx) => {
     try {
       let {driverId} = ctx.request.body;
-      let {rows} = await cassandra.driverStats(driverId);
-      ctx.response.body = rows;
+      let result = await redis.fetchStats(driverId);
+      ctx.response.body = result;
     } catch(error) {
       console.log('error', error);
       ctx.response.status = 400;

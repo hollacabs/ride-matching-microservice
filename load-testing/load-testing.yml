@@ -17,4 +17,4 @@ scenarios:
           url: "/statistics"
           json: 
             driverId: "{{driver_id}}"
-      count: 700
+      count: 300

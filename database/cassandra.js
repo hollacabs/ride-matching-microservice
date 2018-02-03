@@ -1,12 +1,12 @@
-const cassandra = require('cassandra-driver');
-const distance = cassandra.types.distance;
+const Cassandra = require('cassandra-driver');
+const distance = Cassandra.types.distance;
 
-const client = new cassandra.Client({
+const client = new Cassandra.Client({
   contactPoints: ['127.0.0.1'],
   keyspace: 'rides_matched',
   pooling: {
     coreConnectionsPerHost: {
-      [distance.local]: 2,
+      [distance.local]: 20,
       [distance.remote]: 1
     }
   }
@@ -18,11 +18,10 @@ module.exports = {
     `INSERT INTO drivers (driver_id, trip_id, price_timestamp, city,
     pick_up_distance, ride_duration)
     VALUES (?, ?, ?, ?, ?, ?)`;
-    client.execute(query, driveHistory, { prepare: true })
-  },
-  driverStats: (driverId) => {
-    let query = 
-    `SELECT * FROM drivers WHERE driver_id = ${driverId} LIMIT 10`;
-    return client.execute(query, {prepare:true})
+    return client.execute(query, driveHistory, { prepare: true })
   }
+  // driverStats: (driverId, timestamp) => {
+  //   let query = `SELECT * FROM drivers WHERE driver_id = ${driverId} AND price_timestamp > '${timestamp}'`;
+  //   return client.execute(query, {prepare:true})
+  // }
 }
