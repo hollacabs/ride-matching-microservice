@@ -3,6 +3,7 @@ const router = new Router();
 const redis = require('../database/redis');
 const cassandra = require('../database/cassandra');
 const helper = require('./helper');
+const moment = require('moment');
 
 router
   .post('/', async (ctx) => {
@@ -20,7 +21,10 @@ router
       let pickUpDistance = parseFloat(parseFloat(geoRadiusResult[0][1]).toFixed(2));
       let driverLocation = [parseFloat(geoRadiusResult[0][2][1]), parseFloat(geoRadiusResult[0][2][0])]
 
-      cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
+      cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration])
+        .catch(err => {
+          console.log('Cassandra Insert Failed');
+        })
       
       // helper.eventLogger('someaddress', { driverId, priceTimestamp })
 
@@ -33,7 +37,11 @@ router
   })
   .post('/statistics', async (ctx) => {
     try {
-      let {driverId} = ctx.request.body;
+      // let timestamp = moment().subtract(2, 'days').format('YYYY-MM-DD hh:mm:ss');
+      // let {driverId} = ctx.request.body;
+      // let {rows} = await cassandra.driverStats(driverId, timestamp);
+      // ctx.response.body = rows;
+      let { driverId } = ctx.request.body;
       let result = await redis.fetchStats(driverId);
       ctx.response.body = result;
     } catch(error) {

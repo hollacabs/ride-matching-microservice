@@ -1,14 +1,6 @@
 const _ = require('lodash');
 const axios = require('axios');
 const coordinates = require('../coordinates');
-const AWS = require('aws-sdk');
-// const queueUrl = 'https://sqs.us-west-1.amazonaws.com/278687533626/eventlogger';
-
-// AWS.config.loadFromPath(path.resolve(__dirname, '../config.json'));
-
-// let sqs = new AWS.SQS({
-//   apiVersion: '2012-11-05'
-// });
 
 module.exports = {
 

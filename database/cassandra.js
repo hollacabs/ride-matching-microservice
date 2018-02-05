@@ -19,9 +19,9 @@ module.exports = {
     pick_up_distance, ride_duration)
     VALUES (?, ?, ?, ?, ?, ?)`;
     return client.execute(query, driveHistory, { prepare: true })
+  },
+  driverStats: (driverId, timestamp) => {
+    let query = `SELECT * FROM drivers WHERE driver_id = ${driverId} AND price_timestamp > '${timestamp}'`;
+    return client.execute(query, { prepare:true })
   }
-  // driverStats: (driverId, timestamp) => {
-  //   let query = `SELECT * FROM drivers WHERE driver_id = ${driverId} AND price_timestamp > '${timestamp}'`;
-  //   return client.execute(query, {prepare:true})
-  // }
 }

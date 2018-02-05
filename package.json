@@ -25,7 +25,8 @@
     "koa-router": "^7.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "sqs-consumer": "^3.8.0"
   },
   "devDependencies": {
     "jest": "^22.1.4",
