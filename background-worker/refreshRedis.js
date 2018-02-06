@@ -7,7 +7,7 @@ let timestamp = moment().subtract(10, 'minutes').format('YYYY-MM-DD hh:mm:ss');
 
 // selects the current batch of 10000 to run during minute 1 - 10. 
 // e.g. block 20k-30k will run at 5:02 and block 90k-100k will run at 3:59
-let currentBlock = timestamp.slice(-4, -3) * 10000;
+let currentBlock = timestamp.slice(-4, -3) * 10000;;
 let promiseArray = [];
 console.log(currentBlock);
 

@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const axios = require('axios');
 const coordinates = require('../coordinates');
+const SQS = require('./index');
+const { rideMatchingEgress } = require('../config');
 
 module.exports = {
 
@@ -29,6 +31,16 @@ module.exports = {
       });
     })
   },
+  egressQueue: (result) => {
+    let params = {
+      MessageBody: JSON.stringify(result),
+      QueueUrl: rideMatchingEgress.url
+    }
+    SQS.sendMessage(params, (err, data) => {
+      if (err) console.log(err);
+    })
+  }
+
     // pickUpCity : (pickUpLocation) => {
   //   return _.findKey(coordinates, (city) => {
   //     return (pickUpLocation[0] > city.longitude[0] && pickUpLocation[0] < city.longitude[1]) &&
