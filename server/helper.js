@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const axios = require('axios');
 const coordinates = require('../coordinates');
-const SQS = require('./index');
-const { rideMatchingEgress } = require('../config');
+const { rideMatchingSQS, eventLoggerSQS } = require('./index');
+const { rideMatchingEgress, eventLogger } = require('../config');
 
 module.exports = {
 
@@ -13,32 +13,24 @@ module.exports = {
     });
   },
 
-  eventLogger: (messageBody) => {
+  eventLoggerQueue: (messageBody) => {
     let params = {
       MessageBody: JSON.stringify(messageBody),
-      QueueUrl: queueUrl,
+      QueueUrl: eventLogger.url,
       DelaySeconds: 0
     }
-    return new Promise((resolve, reject) => {
-      sqs.sendMessage(params, (err, data) => {
-        if (err) {
-            console.log('Error sending message', err)
-        reject(err)
-            } else {
-            console.log('Message send success, ', data)
-        resolve(data);
-          };
-      });
-    })
+    eventLoggerSQS.sendMessage(params, (err, data) => {
+      if (err) console.log(err);
+    });
   },
   egressQueue: (result) => {
     let params = {
       MessageBody: JSON.stringify(result),
       QueueUrl: rideMatchingEgress.url
     }
-    SQS.sendMessage(params, (err, data) => {
+    rideMatchingSQS.sendMessage(params, (err, data) => {
       if (err) console.log(err);
-    })
+    });
   }
 
     // pickUpCity : (pickUpLocation) => {

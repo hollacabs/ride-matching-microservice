@@ -2,39 +2,35 @@ const redis = require('../database/redis');
 const cassandra = require('../database/cassandra');
 const helper = require('./helper');
 const moment = require('moment');
-const SQS = require('./index');
+const { rideMatchingSQS } = require('./index');
 const { rideMatchingEgress, rideMatchingIngress } = require('../config');
 const Consumer = require('sqs-consumer');
 
 let matchDriver = async (request) => {
   try {
     let { userId, priceTimestamp, rideDuration, pickUpLocation, dropOffLocation, city } = request;
-    let geoRadiusResult = await redis.geoRadius2km(pickUpLocation);
+    let geoRadiusResult = await redis.geoRadius(pickUpLocation, 2);
     // if no results, retry with larger radius
     if (!geoRadiusResult.length) {
-      geoRadiusResult = await redis.geoRadius10km(pickUpLocation);
+      geoRadiusResult = await redis.geoRadius(pickUpLocation, 10);
     }
     // deletes the select driver from redis
     let driverId = geoRadiusResult[0][0];
     redis.removeDriver(driverId);
 
     let pickUpDistance = parseFloat(parseFloat(geoRadiusResult[0][1]).toFixed(2));
-    let driverLocation = [parseFloat(geoRadiusResult[0][2][1]), parseFloat(geoRadiusResult[0][2][0])]
-
-    cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration])
-      .catch(err => {
-        console.log('Cassandra Insert Failed');
-      })
-    // for the driver
+    let driverLocation = [parseFloat(geoRadiusResult[0][2][1]), parseFloat(geoRadiusResult[0][2][0])];
+    // writing to driver, rider and eventLogger queues
     helper.egressQueue({driverId, userId, pickUpLocation, dropOffLocation});
-    // for the rider
     helper.egressQueue({driverId, driverLocation});
-    // send to event logger queue helper.eventLogger('someaddress', { driverId, priceTimestamp })
+    helper.eventLogger({ userId, priceTimestamp, city });
+    cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
   } catch (error) {
     console.log('error', error);
     helper.egressQueue({ driverId: null, driverLocation: null });
   }
 }
+
 let retrieveDriverStats = async function(request) {
   try {
     let { driverId } = request;
@@ -48,7 +44,7 @@ let retrieveDriverStats = async function(request) {
 
 let consumer = Consumer.create({
   queueUrl: rideMatchingIngress.url,
-  sqs: SQS,
+  sqs: rideMatchingSQS,
   batchSize: 10,
   handleMessage: (message, done) => {
     let body = JSON.parse(message.Body);
@@ -63,6 +59,8 @@ let consumer = Consumer.create({
 
 consumer.start();
 
+
+module.exports = { matchDriver, retrieveDriverStats }
 //   params = {
 //     MessageBody: JSON.stringify({driverId: i}),
 //     QueueUrl: rideMatching.url
