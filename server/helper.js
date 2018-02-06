@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const axios = require('axios');
 const coordinates = require('../coordinates');
 const { rideMatchingSQS, eventLoggerSQS } = require('./index');
 const { rideMatchingEgress, eventLogger } = require('../config');

@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const router = new Router();
-const redis = require('../database/redis');
-const cassandra = require('../database/cassandra');
+const redis = require('../redis/redis');
+const cassandra = require('../cassandra/cassandra');
 const helper = require('./helper');
 const moment = require('moment');
 

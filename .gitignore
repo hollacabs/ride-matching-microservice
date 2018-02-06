@@ -12,3 +12,6 @@ node_modules/
 config.js
 newrelic.js
 
+# data loading files
+driveHistoryDataWithCoord.csv
+
