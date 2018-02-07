@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: wongal5/ride-matching-server
+    image: wongal5/hollacabs:node
     links:
     - redis
     - cassandra
@@ -10,6 +10,6 @@ services:
     volumes: 
     - .:/usr/src/ride-matching-service
   redis:
-    image: redis
+    image: wongal5/hollacabs:redis
   cassandra:
-    image: wongal5/cassandra
+    image: wongal5/hollacabs:cassandra
