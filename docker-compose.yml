@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    image: wongal5/ride-matching-server
+    links:
+    - redis
+    - cassandra
+    env_file:
+      - web-variables.env
+    volumes: 
+    - .:/usr/src/ride-matching-service
+  redis:
+    image: redis
+  cassandra:
+    image: wongal5/cassandra

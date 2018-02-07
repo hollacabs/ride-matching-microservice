@@ -23,7 +23,7 @@ let matchDriver = async (request) => {
     // writing to driver, rider and eventLogger queues
     helper.egressQueue({driverId, userId, pickUpLocation, dropOffLocation});
     helper.egressQueue({driverId, driverLocation});
-    helper.eventLogger({ userId, priceTimestamp, city });
+    // helper.eventLoggerQueue({ userId, priceTimestamp, city });
     cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
   } catch (error) {
     console.log('error', error);
