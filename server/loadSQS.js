@@ -9,17 +9,17 @@ let sqs = new AWS.SQS({
 
 let message, params;
 
-for (var i = 0; i < 1000; i++) {
+for (var i = 1; i < 11; i++) {
   message = { testmessage: i };
   params = {
     MessageBody: JSON.stringify({
-      // driverId: i
-      userId: 1,
-      pickUpLocation: [-87.7947, 41.8454],
-      dropOffLocation: [-87.7147, 41.8354],
-      rideDuration: 5,
-      priceTimestamp: "2018-01-30 07:05:45-08:00",
-      city: "sanFrancisco"
+      driverId: i
+      // userId: 1,
+      // pickUpLocation: [-96, 41.25],
+      // dropOffLocation: [-96, 41.25],
+      // rideDuration: 5,
+      // priceTimestamp: "2018-01-30 07:05:45-08:00",
+      // city: "sanFrancisco"
     }),
     QueueUrl: rideMatchingIngress.url
   }

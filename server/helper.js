@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const coordinates = require('../coordinates');
-const { rideMatchingSQS, eventLoggerSQS } = require('./index');
+const { rideMatchingSQS, eventLoggerSQS } = require('./sqs');
 const { rideMatchingEgress, eventLogger } = require('../config');
 
 module.exports = {
@@ -22,6 +22,7 @@ module.exports = {
       if (err) console.log(err);
     });
   },
+
   egressQueue: (result) => {
     let params = {
       MessageBody: JSON.stringify(result),

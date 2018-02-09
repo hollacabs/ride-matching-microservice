@@ -2,7 +2,7 @@ const redis = require('../redis/redis');
 const cassandra = require('../cassandra/cassandra');
 const helper = require('./helper');
 const moment = require('moment');
-const { rideMatchingSQS } = require('./index');
+const { rideMatchingSQS } = require('./sqs');
 const { rideMatchingEgress, rideMatchingIngress } = require('../config');
 const Consumer = require('sqs-consumer');
 
@@ -12,7 +12,8 @@ let matchDriver = async (request) => {
     let geoRadiusResult = await redis.geoRadius(pickUpLocation, 2);
     // if no results, retry with larger radius
     if (!geoRadiusResult.length) {
-      geoRadiusResult = await redis.geoRadius(pickUpLocation, 10);
+      geoRadiusResult = await redis.geoRadius(pickUpLocation, 50);
+      if (!geoRadiusResult.length) throw 'No Drivers Found';
     }
     // deletes the select driver from redis
     let driverId = geoRadiusResult[0][0];
@@ -27,7 +28,7 @@ let matchDriver = async (request) => {
     cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
   } catch (error) {
     console.log('error', error);
-    helper.egressQueue({ driverId: null, driverLocation: null });
+    helper.egressQueue({ error: error });
   }
 }
 
@@ -55,17 +56,9 @@ let consumer = Consumer.create({
     }
     done();
   }
-})
+});
 
 consumer.start();
 
 
 module.exports = { matchDriver, retrieveDriverStats }
-//   params = {
-//     MessageBody: JSON.stringify({driverId: i}),
-//     QueueUrl: rideMatching.url
-//   }
-//   sqs.sendMessage(params, (err, data) => {
-//     if (err) console.log(err);
-//     else console.log(data);
-//   })

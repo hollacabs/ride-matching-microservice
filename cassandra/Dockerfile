@@ -1,4 +1,4 @@
-FROM spotify/cassandra
+FROM cassandra:latest
 
 WORKDIR /usr/src/cassandra
 

@@ -8,8 +8,8 @@ services:
     env_file:
       - web-variables.env
     volumes: 
-    - .:/usr/src/ride-matching-service
+      - .:/usr/src/ride-matching-service
   redis:
     image: wongal5/hollacabs:redis
   cassandra:
-    image: wongal5/hollacabs:cassandra
+    image: wongal5/hollacabs:cassandra-v1
