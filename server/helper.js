@@ -32,11 +32,5 @@ module.exports = {
       if (err) console.log(err);
     });
   }
-
-    // pickUpCity : (pickUpLocation) => {
-  //   return _.findKey(coordinates, (city) => {
-  //     return (pickUpLocation[0] > city.longitude[0] && pickUpLocation[0] < city.longitude[1]) &&
-  //       (pickUpLocation[1] < city.latitude[0] && pickUpLocation[1] > city.latitude[1])
-  //   })
-  // },
+  
 }

@@ -22,8 +22,8 @@ let matchDriver = async (request) => {
     let pickUpDistance = parseFloat(parseFloat(geoRadiusResult[0][1]).toFixed(2));
     let driverLocation = [parseFloat(geoRadiusResult[0][2][1]), parseFloat(geoRadiusResult[0][2][0])];
     // writing to driver, rider and eventLogger queues
-    helper.egressQueue({driverId, userId, pickUpLocation, dropOffLocation});
-    helper.egressQueue({driverId, driverLocation});
+    helper.egressQueue({ driverId, userId, pickUpLocation, dropOffLocation });
+    helper.egressQueue({ driverId, driverLocation, pickUpLocation });
     // helper.eventLoggerQueue({ userId, priceTimestamp, city });
     cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
   } catch (error) {

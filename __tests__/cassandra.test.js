@@ -7,7 +7,6 @@ describe('Cassandra Queries', () => {
         expect(result).toBeUndefined();
       })
       .catch((err) => {
-        console.log('hello', err)
         expect(err).toBeDefined();
       })
   });

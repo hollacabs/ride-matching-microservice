@@ -31,5 +31,9 @@
   "devDependencies": {
     "jest": "^22.1.4",
     "newrelic": "^2.7.0"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true
   }
 }

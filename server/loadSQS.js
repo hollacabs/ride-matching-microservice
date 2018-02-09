@@ -1,16 +1,10 @@
 const AWS = require('aws-sdk');
 const { rideMatchingIngress } = require('../config');
+const { rideMatchingSQS } = require('./sqs');
 
-let sqs = new AWS.SQS({
-  apiVersion:'2012-11-05', 
-  region: rideMatchingIngress.region,
-  credentials: new AWS.Credentials(rideMatchingIngress.accessKeyId, rideMatchingIngress.secretAccessKey)
-});
-
-let message, params;
+let params;
 
 for (var i = 1; i < 11; i++) {
-  message = { testmessage: i };
   params = {
     MessageBody: JSON.stringify({
       driverId: i
@@ -23,7 +17,7 @@ for (var i = 1; i < 11; i++) {
     }),
     QueueUrl: rideMatchingIngress.url
   }
-  sqs.sendMessage(params, (err, data) => {
+  rideMatchingSQS.sendMessage(params, (err, data) => {
     if (err) console.log(err);
     else console.log(data);
   })
