@@ -2,7 +2,7 @@ const Cassandra = require('cassandra-driver');
 const distance = Cassandra.types.distance;
 
 const client = new Cassandra.Client({
-  contactPoints: ['cassandra'], 
+  contactPoints: ['54.153.53.48'], 
   keyspace: 'rides_matched',
   pooling: {
     coreConnectionsPerHost: {

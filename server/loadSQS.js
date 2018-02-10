@@ -4,7 +4,7 @@ const { rideMatchingSQS } = require('./sqs');
 
 let params;
 
-for (var i = 1; i < 11; i++) {
+for (var i = 1; i < 1100; i++) {
   params = {
     MessageBody: JSON.stringify({
       driverId: i
