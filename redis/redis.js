@@ -1,5 +1,5 @@
 const redis = require('redis');
-const client = redis.createClient({ host: 'redis' });
+const client = redis.createClient({ host: '172.31.11.147' });
 const { promisify } = require('util');
 const georadiusAsync = promisify(client.georadius).bind(client);
 const zremAsync = promisify(client.zrem).bind(client);

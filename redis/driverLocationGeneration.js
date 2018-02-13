@@ -1,7 +1,7 @@
 const { promisify } = require('util');
 const coordinates = require('../coordinates');
 let redis = require("redis");
-let client = redis.createClient({ host: 'redis' }), multi;
+let client = redis.createClient({ host: '172.31.11.147' }), multi;
 multi = client.multi();
 
 client.on("error", function (err) {
