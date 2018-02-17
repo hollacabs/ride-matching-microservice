@@ -1,14 +1,9 @@
 const _ = require('lodash');
-const axios = require('axios');
 const coordinates = require('../coordinates');
+const { rideMatchingSQS, eventLoggerSQS } = require('./sqs');
+const { rideMatchingEgress, eventLogger } = require('../config');
 
 module.exports = {
-  pickUpCity : (pickUpLocation) => {
-    return _.findKey(coordinates, (city) => {
-      return (pickUpLocation[0] > city.longitude[0] && pickUpLocation[0] < city.longitude[1]) &&
-        (pickUpLocation[1] < city.latitude[0] && pickUpLocation[1] > city.latitude[1])
-    })
-  },
 
   uuidv4 : () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -17,8 +12,25 @@ module.exports = {
     });
   },
 
-  eventLogger : (body) => {
-    return;
-  }
+  eventLoggerQueue: (messageBody) => {
+    let params = {
+      MessageBody: JSON.stringify(messageBody),
+      QueueUrl: eventLogger.url,
+      DelaySeconds: 0
+    }
+    eventLoggerSQS.sendMessage(params, (err, data) => {
+      if (err) console.log(err);
+    });
+  },
 
+  egressQueue: (result) => {
+    let params = {
+      MessageBody: JSON.stringify(result),
+      QueueUrl: rideMatchingEgress.url
+    }
+    rideMatchingSQS.sendMessage(params, (err, data) => {
+      if (err) console.log(err);
+    });
+  }
+  
 }

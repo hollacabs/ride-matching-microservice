@@ -1,19 +1,9 @@
+require('newrelic');
 const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
-const router = require('./router');
+// const bodyParser = require('koa-bodyparser');
 
-let app = new Koa();
+const app = new Koa();
 
-app.use(bodyParser());
+console.log('Node is running');
 
-app.use(router.routes()).use(router.allowedMethods());
-
-app.use(ctx => {
-  ctx.body = 'Hello Koa';
-});
-
-let port = 3000;
-
-app.listen(port, () => {
-  console.log('Koa is listening on port ' + port);
-});
+require('./queueHandlers');
