@@ -1,5 +1,5 @@
 config:
-  target: 'Hollacabs-Load-Balancer-1360933743.us-west-1.elb.amazonaws.com'
+  target: 'http://localhost:3000'
   phases:
     - duration: 60
       arrivalRate: 10
@@ -17,4 +17,4 @@ scenarios:
           url: "/driverstatistics"
           json: 
             driverId: "{{driver_id}}"
-          count: 15
+          count: 20
