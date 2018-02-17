@@ -1,13 +1,13 @@
 # Hollacabs - Ride Matching Service
-> Microservice responsible for matching ride requests to the nearest available driver. 
+Matching ride requests to the nearest available driver. 
 
 Technology Used:
-Node
-Koa
-Cassandra
-Redis
-Docker Compose
-AWS ELB, ECS, EC2
+-Node
+-Koa
+-Cassandra
+-Redis
+-Docker Compose
+-AWS ELB, ECS, EC2
 
 One to two paragraph statement about your product and what it does.
 
