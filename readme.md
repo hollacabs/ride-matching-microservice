@@ -1,27 +1,15 @@
-# Hollacabs - Ride Matching Microservice
-> Short blurb about what your product does.
+# Hollacabs - Ride Matching Service
+> Microservice responsible for matching ride requests to the nearest available driver. 
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
+Technology Used:
+Node
+Koa
+Cassandra
+Redis
+Docker Compose
+AWS ELB, ECS, EC2
 
 One to two paragraph statement about your product and what it does.
-
-![](header.png)
-
-## Installation
-
-OS X & Linux:
-
-```sh
-npm install my-crazy-module --save
-```
-
-Windows:
-
-```sh
-edit autoexec.bat
-```
 
 ## Usage example
 
