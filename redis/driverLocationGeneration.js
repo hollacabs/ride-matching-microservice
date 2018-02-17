@@ -17,7 +17,7 @@ let generateRandomDrivers = (cityCoordinates) => {
   let cityArray = Object.keys(cityCoordinates);
   let coord;
   let batchSize = 10000;
-  let numberBatches = 3;
+  let numberBatches = 10;
   for (var a = 0; a < numberBatches; a++) {
     insertData = [];
     for (var i = 0; i < batchSize; i++) {

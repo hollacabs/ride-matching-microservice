@@ -17,18 +17,24 @@ let matchDriver = async (request) => {
     }
     // deletes the select driver from redis
     let driverId = geoRadiusResult[0][0];
-    redis.removeDriver(driverId);
-
+    // calling parseFloat twice because toFixed returns a string. 
+    // TODO: look up alternative way to limit decimals.
     let pickUpDistance = parseFloat(parseFloat(geoRadiusResult[0][1]).toFixed(2));
     let driverLocation = [parseFloat(geoRadiusResult[0][2][1]), parseFloat(geoRadiusResult[0][2][0])];
+    let removedCount = await redis.removeDriver(driverId);
+    if (!removedCount) {
+      throw "driver conflict";
+    }
     // writing to driver, rider and eventLogger queues
     helper.egressQueue({ driverId, userId, pickUpLocation, dropOffLocation });
     helper.egressQueue({ driverId, driverLocation, pickUpLocation });
-    // helper.eventLoggerQueue({ userId, priceTimestamp, city });
+    helper.eventLoggerQueue({ userId, priceTimestamp, city });
     cassandra.insert([driverId, helper.uuidv4(), priceTimestamp, city, pickUpDistance, rideDuration]);
-  } catch (error) {
-    console.log('error', error);
-    helper.egressQueue({ error: error });
+  } catch (err) {
+    console.log('error', err);
+    err === "driver conflict" ?
+      matchDriver(request) :
+      helper.egressQueue({ userId: request.userId ,error: err });
   }
 }
 
@@ -59,6 +65,5 @@ let consumer = Consumer.create({
 });
 
 consumer.start();
-
 
 module.exports = { matchDriver, retrieveDriverStats }

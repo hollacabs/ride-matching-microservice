@@ -8,12 +8,15 @@ bower_components
 node_modules/
 
 # dotenv environment variables file
-.env
+*.env
 config.js
 newrelic.js
 
 # data loading files
-driveHistoryDataWithCoord.csv
+*.csv
 
 # Coverage directory used by tools like istanbul
 coverage
+
+# IDE files
+.vscode/
