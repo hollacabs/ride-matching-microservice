@@ -17,10 +17,10 @@ Tech Stack:
 
 ## Data Flow
 
-##### /ridematching endpoint
+### /ridematching endpoint
 Koa Server ingests client ridematching requests from AWS SQS ingress queue via long polling. Server uses Redis Geo Set queries to locate the nearest available driver. Server performs reconciliations to verify that the driver has not been assigned by another server in the fleet, and reselects a new driver if necessary. Completed requests are sent to the egress queue for client ingestion and logged in Cassandra.
 
-##### /driverstatistics endpoint
+### /driverstatistics endpoint
 A background worker refreshes drive history data in Redis Lists (limit 10) on a 10 minute basis (10% drivers / minute). Koa Server ingests client driverstatistic requests from the AWS SQS ingress queue via long polling. Server queries Redis List and sends latest 10 trips to the egress queue for client ingestion. 
 
 ## Contributing
