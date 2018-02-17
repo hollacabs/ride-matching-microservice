@@ -1,7 +1,7 @@
 # Hollacabs - Ride Matching Service
 Match ride requests to the nearest available driver. Designed for maximal efficiency and RPS. 
 
-Tech Stack:
+### Tech Stack:
 - Node
 - Koa
 - Cassandra
