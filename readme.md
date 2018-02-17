@@ -8,7 +8,7 @@ Match ride requests to the nearest available driver. Designed for maximal effici
 - Redis
 - Docker Compose
 - AWS ELB, ECS, EC2, SQS
-- Jest
+- Jest (Test-Driven Development)
 
 ## Architecture
 
