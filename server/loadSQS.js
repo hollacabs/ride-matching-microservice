@@ -2,9 +2,9 @@ const AWS = require('aws-sdk');
 const coordinates = require('../coordinates');
 const { rideMatchingIngress } = require('../config');
 const { rideMatchingSQS } = require('./sqs');
+const moment = require ('moment');
 
 let params;
-let date = new Date();
 
 let randomCityGenerator = (driverId) => {
   let cities = Object.keys(coordinates);
@@ -17,7 +17,7 @@ let randomCoordinates = (city) => {
 
 let city;
 let coords;
-for (var i = 1; i < 10; i++) {
+for (var i = 1; i < 2; i++) {
   city = randomCityGenerator(Math.floor(Math.random() * 100000));
   coords = randomCoordinates(coordinates[city]);
   params = {
@@ -27,13 +27,12 @@ for (var i = 1; i < 10; i++) {
       pickUpLocation: coords,
       dropOffLocation: coords,
       rideDuration: 5,
-      priceTimestamp: "2018-01-30 07:05:45-08:00",
-      city: "sanFrancisco"
+      priceTimestamp: moment().format('YYYY-MM-DD HH:mm:ssZ'),
+      city: city
     }),
     QueueUrl: rideMatchingIngress.url
   }
   rideMatchingSQS.sendMessage(params, (err, data) => {
     if (err) console.log(err);
-    else console.log(date);
   })
 }
