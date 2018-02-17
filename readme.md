@@ -1,5 +1,5 @@
 # Hollacabs - Ride Matching Service
-Match ride requests to the nearest available driver. Designed for maximal efficiency and RPS. 
+Match ride requests to the nearest available driver. Designed for maximal efficiency and RPS served.
 
 ### Tech Stack:
 - Node
